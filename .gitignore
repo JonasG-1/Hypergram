@@ -1,0 +1,9 @@
+
+/node_modules/
+*.yaml
+*.json
+/Hypergram/*/
+/Hypergram/task/test/
+/.idea/
+
+!/Hypergram/task/

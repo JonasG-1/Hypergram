@@ -1,0 +1,54 @@
+html {
+    height: 100%;
+    font-family: Helvetica, sans-serif;
+}
+
+body {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.control {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+
+    background-color: #1a9ccb;
+    min-width: 20%;
+    padding: 6% 3%;
+}
+
+.slider {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    text-align: center;
+    color: white;
+    font-size: 18px;
+}
+
+.button {
+    padding: 1.5rem;
+    border: 0;
+    border-radius: 5px;
+    background-color: lightcoral;
+    cursor: pointer;
+    color: white;
+    font-size: 20px;
+    text-align: center;
+}
+
+label.button {
+    display: inline-block;
+}
+
+#file-input {
+    display: none;
+}
+
+#save-button {
+    background-color: lightblue;
+    color: black;
+}
