@@ -4,17 +4,28 @@
     <meta charset="UTF-8">
     <title>Hypergram</title>
     <link rel="stylesheet" href="style.css"/>
+    <script src="https://kit.fontawesome.com/797b7e6b0d.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <canvas>
+    <div class="container">
+        <div id="info">
+            <i class="fa-solid fa-file-arrow-up"></i>
+            <p>Bitte lade ein Bild hoch.</p>
+        </div>
+        <canvas id="display"></canvas>
+        <div id="side">
+            <div id="control">
+                <label for="file-input" class="button">Hochladen<input type="file" id="file-input" accept="image/*"></label>
+                <div class="slider"><label for="brightness">Helligkeit</label><input type="range" id="brightness"></div>
+                <div class="slider"><label for="contrast">Kontrast</label><input type="range" id="contrast"></div>
+                <div class="slider"><label for="transparent">Transparent</label><input type="range" id="transparent"></div>
+                <button id="save-button" class="button">Bild speichern</button>
+            </div>
 
-    </canvas>
-    <div class="control">
-        <label for="file-input" class="button">Hochladen<input type="file" id="file-input" value="Hochladen"></label>
-        <div class="slider"><label for="brightness">Helligkeit</label><input type="range" id="brightness" value="Helligkeit"></div>
-        <div class="slider"><label for="contrast">Kontrast</label><input type="range" id="contrast"></div>
-        <div class="slider"><label for="transparent">Transparent</label><input type="range" id="transparent"></div>
-        <button id="save-button" class="button">Bild speichern</button>
+        </div>
+        <button id="collapse">></button>
     </div>
+
+    <script src="main.js"></script>
 </body>
 </html>

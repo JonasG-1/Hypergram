@@ -1,6 +1,8 @@
+
 html {
     height: 100%;
     font-family: Helvetica, sans-serif;
+    font-size: 3vh;
 }
 
 body {
@@ -8,16 +10,66 @@ body {
     margin: 0;
     padding: 0;
     height: 100%;
+    max-width: 100vw;
+    background-color: black;
 }
 
-.control {
+.container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+#side {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
+    position: sticky;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    min-width: 25vw;
+    max-width: 25vw;
+    height: 100%;
+    background: linear-gradient(35deg, rgba(0, 0, 0, 1) 50%, rgba(131, 58, 180, 1) 50%,
+                rgba(253, 29, 29, 1) 85%, rgba(252, 176, 69, 1) 100%) 50% 0;
+    background-size: 100% 250%;
+    padding: 0 1vh;
+    transition: all .7s !important;
+}
 
-    background-color: #1a9ccb;
-    min-width: 20%;
-    padding: 6% 3%;
+#side.animate:hover {
+    background-position: 50% 100%;
+}
+
+#side.restore:hover {
+    background-position: 50% 0;
+}
+
+
+#control {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    max-width: 100%;
+    height: 70%;
+}
+
+#collapse {
+    position: fixed;
+    height: 10vh;
+    aspect-ratio: 1 / 1;
+    font-size: 5vh;
+    border: 0;
+    background-color: transparent;
+    border-radius: 10%;
+    right: 1vh;
+    bottom: 1vh;
+    cursor: pointer;
+}
+
+#collapse:hover {
+    background-color: rgba(0, 0, 0, 0.3);
 }
 
 .slider {
@@ -26,17 +78,17 @@ body {
     width: 100%;
     text-align: center;
     color: white;
-    font-size: 18px;
+    font-size: 2.1vh;
 }
 
 .button {
-    padding: 1.5rem;
-    border: 0;
+    padding: 2.3vh;
     border-radius: 5px;
-    background-color: lightcoral;
+    background-color: black;
+    border: .2vh solid white;
     cursor: pointer;
     color: white;
-    font-size: 20px;
+    font-size: 3vh;
     text-align: center;
 }
 
@@ -49,6 +101,32 @@ label.button {
 }
 
 #save-button {
-    background-color: lightblue;
+    border-color: black;
+    background: linear-gradient(30deg, rgba(131, 58, 180, 1) 0%,
+    rgba(253, 29, 29, 1) 35%, rgba(252, 176, 69, 1) 50%, rgba(255, 255, 255, 1) 50%) 50% 0;
+    background-size: 100% 600%;
     color: black;
+    transition: .55s;
+}
+
+#save-button:hover {
+    background-position: 50% 100%;
+}
+
+#display {
+    margin-left: auto;
+    margin-right: auto;
+    display: none;
+}
+
+#info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 5vw;
+    color: grey;
 }
