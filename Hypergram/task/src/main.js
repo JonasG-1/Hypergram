@@ -4,24 +4,35 @@ const saveButton = document.getElementById("save-button");
 const sidePanel = document.getElementById("side");
 let sideCollapsed = false;
 
+const brightnessSlide = document.getElementById("brightness");
+const contrastSlide = document.getElementById("contrast");
+const transparentSlide = document.getElementById("transparent");
+const canvas = document.getElementById("display");
+let imageLoaded;
+
+let image = new Image();
+let ctx = canvas.getContext("2d");
+
+function loadDocument() {
+    updateRanges();
+}
+
 fileInput.addEventListener("change", function (event) {
     if (event.target.files) {
         let file = event.target.files[0];
         let reader = new FileReader();
         reader.readAsDataURL(file);
-
         reader.onloadend = function (event) {
-            let image = new Image();
             image.src = event.target.result;
             image.onload = function () {
-                let canvas = document.getElementById("display");
-                let ctx = canvas.getContext("2d");
                 let info = document.getElementById("info");
                 info.style.display = "none";
                 canvas.style.display = "inline";
                 canvas.width = image.width;
                 canvas.height = image.height;
-                ctx.drawImage(image, 0, 0,);
+                ctx.drawImage(image, 0, 0);
+                imageLoaded = true;
+                resetRanges();
             }
         }
     }
@@ -57,5 +68,74 @@ sidePanel.addEventListener("mouseleave", function () {
     sidePanel.classList.remove("restore");
 });
 
+brightnessSlide.addEventListener("change", function () {
+    updateRanges();
+    if (imageLoaded) {
+        calculateColors();
+    }
+});
 
+contrastSlide.addEventListener("change", function () {
+    updateRanges();
+    if (imageLoaded) {
+        calculateColors()
+    }
+});
+
+transparentSlide.addEventListener("change", function () {
+    updateRanges();
+    if (imageLoaded) {
+        calculateColors();
+    }
+});
+
+function calculateColors() {
+    let contrast = parseInt(contrastSlide.value);
+    let brightness = parseInt(brightnessSlide.value);
+    let transparency = parseFloat(transparentSlide.value);
+    let factor = 259 * (255 + contrast) / (255 * (259 - contrast));
+    ctx.drawImage(image, 0, 0);
+    let imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    let pixels = imageData.data;
+
+    for (let i = 3; i < pixels.length; i += 4) {
+        for (let j = 1; j < 4; j++) {
+            pixels[i-j] = truncate(factor * (pixels[i-j] - 128) + 128 + brightness);
+        }
+        pixels[i] *= transparency;
+    }
+
+    imageData.data = pixels;
+    ctx.putImageData(imageData, 0, 0);
+}
+
+function truncate(number) {
+    if (number > 255) {
+        number = 255;
+    } else if (number < 0) {
+        number = 0;
+    }
+    return number;
+}
+
+function updateRanges() {
+    let bright = parseInt(brightnessSlide.value);
+    updateTextContent("brightness-display", bright);
+    let contr = parseInt(contrastSlide.value);
+    updateTextContent("contrast-display", contr);
+    let transp = parseFloat(transparentSlide.value);
+    updateTextContent("transparent-display", transp);
+}
+
+function resetRanges() {
+    brightnessSlide.value = 0;
+    contrastSlide.value = 0;
+    transparentSlide.value = 1;
+    updateRanges();
+}
+
+function updateTextContent(id, text) {
+    const element = document.getElementById(id);
+    element.textContent = text;
+}
 
