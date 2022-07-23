@@ -38,69 +38,49 @@ fileInput.addEventListener("change", function (event) {
     }
 });
 
-collapseButton.addEventListener("click", function () {
-    let controlPanel = document.getElementById("control");
-    let sidePanel = document.getElementById("side");
-    if (sideCollapsed) {
-        collapseButton.textContent = ">";
-        sidePanel.style.minWidth = "25vw";
-        controlPanel.style.display = "flex";
-        sideCollapsed = false;
-    } else {
-        controlPanel.style.display = "none";
-        collapseButton.textContent = "<";
-        sidePanel.style.minWidth = "10vh";
-        sideCollapsed = true;
+saveButton.addEventListener("click", function () {
+    if (imageLoaded) {
+        let imageURL = canvas.toDataURL();
+        let link = document.createElement('a');
+        link.download = 'result.png';
+        link.href = imageURL;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
     }
-});
-
-saveButton.addEventListener("mouseover", function () {
-    sidePanel.classList.remove("restore");
-    sidePanel.classList.add("animate");
-});
-
-saveButton.addEventListener("mouseout", function () {
-    sidePanel.classList.remove("animate");
-    sidePanel.classList.add("restore");
-});
-
-sidePanel.addEventListener("mouseleave", function () {
-    sidePanel.classList.remove("restore");
 });
 
 brightnessSlide.addEventListener("change", function () {
-    updateRanges();
-    if (imageLoaded) {
-        calculateColors();
-    }
+    slideEvent();
 });
 
 contrastSlide.addEventListener("change", function () {
-    updateRanges();
-    if (imageLoaded) {
-        calculateColors()
-    }
+    slideEvent();
 });
 
 transparentSlide.addEventListener("change", function () {
+    slideEvent();
+});
+
+function slideEvent() {
     updateRanges();
     if (imageLoaded) {
         calculateColors();
     }
-});
+}
 
 function calculateColors() {
     let contrast = parseInt(contrastSlide.value);
     let brightness = parseInt(brightnessSlide.value);
     let transparency = parseFloat(transparentSlide.value);
-    let factor = 259 * (255 + contrast) / (255 * (259 - contrast));
+    let contrastFactor = 259 * (255 + contrast) / (255 * (259 - contrast));
     ctx.drawImage(image, 0, 0);
     let imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     let pixels = imageData.data;
 
     for (let i = 3; i < pixels.length; i += 4) {
         for (let j = 1; j < 4; j++) {
-            pixels[i-j] = truncate(factor * (pixels[i-j] - 128) + 128 + brightness);
+            pixels[i-j] = truncate(contrastFactor * (pixels[i-j] - 128) + 128 + brightness);
         }
         pixels[i] *= transparency;
     }
@@ -139,3 +119,32 @@ function updateTextContent(id, text) {
     element.textContent = text;
 }
 
+collapseButton.addEventListener("click", function () {
+    let controlPanel = document.getElementById("control");
+    let sidePanel = document.getElementById("side");
+    if (sideCollapsed) {
+        collapseButton.textContent = ">";
+        sidePanel.style.minWidth = "25vw";
+        controlPanel.style.display = "flex";
+        sideCollapsed = false;
+    } else {
+        controlPanel.style.display = "none";
+        collapseButton.textContent = "<";
+        sidePanel.style.minWidth = "10vh";
+        sideCollapsed = true;
+    }
+});
+
+saveButton.addEventListener("mouseover", function () {
+    sidePanel.classList.remove("restore");
+    sidePanel.classList.add("animate");
+});
+
+saveButton.addEventListener("mouseout", function () {
+    sidePanel.classList.remove("animate");
+    sidePanel.classList.add("restore");
+});
+
+sidePanel.addEventListener("mouseleave", function () {
+    sidePanel.classList.remove("restore");
+});
